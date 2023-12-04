@@ -1,17 +1,16 @@
 import java.util.*;
 class Solution {
     public int[] solution(int num, int total) {
-         int[] answer = new int[num];
-        int n=0;int mid=total/num;
-        n=mid;
-        int i=0;
-        for(i=0;i<(num%2==0?(num/2-1):(num/2));i++){
-            answer[i]=--n;
+        int[] answer = new int[num];
+        int n=0;
+        while(true){
+            n++;
+            if(n*(n+1)/2>=total)
+                break;
         }
-        n=mid;
-        for(i=(num%2==0?(num/2-1):(num/2));i<(num-1);i++){
-            answer[i]=++n;
-        }answer[i]=mid;
+        for(int i=0;i<num;i++){
+            answer[i]=n--;
+        }
         Arrays.sort(answer);
         return answer;
     }
