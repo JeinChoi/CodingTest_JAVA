@@ -6,7 +6,7 @@ class Solution {
         for(int i=1;i<food.length;i++){
             for(int j=0;j<food[i]/2;j++){
                 st.push(i);
-                answer+=i;
+                answer+=i; 
             }
         }
         answer+="0";
