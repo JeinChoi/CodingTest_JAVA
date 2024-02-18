@@ -7,7 +7,7 @@ class Solution {
         
         for(int i=0;i< players.length;i++){
             map.put(i+1,players[i]);
-            map2.put(players[i],i+1);
+            map2.put(players[i],i+1); 
         }
         
         for(int i=0;i<callings.length;i++){
