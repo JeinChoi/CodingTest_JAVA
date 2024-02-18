@@ -16,10 +16,6 @@ class Solution {
                         endY=j;
                 }
         }
-        answer[0]=startX;
-        answer[1]=startY;
-        answer[2]=endX+1;
-        answer[3]=endY+1;
-        return answer;
+        return new int[]{startX,startY,endX+1,endY+1};
     }
 }
