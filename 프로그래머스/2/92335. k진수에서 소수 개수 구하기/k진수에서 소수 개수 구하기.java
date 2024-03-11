@@ -11,7 +11,7 @@ class Solution {
         return answer;
     }
     static public boolean prime(String str){
-        long num = Long.parseLong(str);
+        int num = Integer.parseInt(str);
         int i=0;
         for(i=2;i<=Math.sqrt(num);i++) {
             if (num % i == 0) {
