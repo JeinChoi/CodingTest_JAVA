@@ -1,61 +1,47 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 import java.util.*;
 
-public class Main {
-    /**
-     * 핵심문장 : 적어도 M미터의 나무를 집에 가져가기 위한 높이
-     *
-     * 예상 풀이 논리
-     * 1. 나무 높이를 오름차순 정렬한다
-     * 2. 최소값과 최대값을 기준으로 for문을 돌린다
-     * 3. 현재 값으로 배열의 있는 값들을 뺄셈을 할 때 최소 M의 길이를 충족하는 값을 탐색한다
-     *
-     * 실제 구현
-     * 1. 전체 탐색을 했더니 시간 초과가 나서 이분 탐색을 방법을 바꿨다
-     * 2. 2%에서 계속 실패로 뜨는 중이라 못풀었습니다
-     */
+/*
+# 요구사항 정리 #
+1. 나무 M미터가 필요해서 절단기 높이를 정한 후 벌목을 해야하는 상황이다.
+2. 절단기 높이 H를 정해서 주어지는 나무를 잘라냈을 때 잘라내진 나무가 적어도 M미터가 되기 위한 H의 최댓값을 구하라
+# 풀이 논리 #
+1. 주어지는 나무들의 길이와 수가 크기 때문에 이분 탐색을 사용해 구현한다.
+*/
+
+class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int N= Integer.parseInt(st.nextToken());
-        int M= Integer.parseInt(st.nextToken());//최소 입력값 이상의 나무를 베야한다.
-
-        String[] arr = br.readLine().split(" ");
-        long[] intArr = new long[N];
-
-        for(int i=0;i<N;i++){
-            intArr[i]=Long.parseLong(arr[i]);
-        }
-
-        Arrays.sort(intArr);//오름차순 정렬
-
-        long start=0L;
-        long end=intArr[intArr.length-1];
-
-        while(start<=end){
-            long mid= (start+end)/2L;
-            long sum=cal(mid,intArr);
-
-            if(sum>=M){//자른 나무의 총길이가 기준보다 크다면 더 자르기 위해 +를 한다
-                start=mid+1;
-            }
-            else{//sum<M 일 경우. 기준보다 작다면 -를 한다.
-                end=mid-1;
-            }
-        }
-        System.out.println(end);
-
+        int N = Integer.parseInt(st.nextToken()); // 나무의 수
+        int M = Integer.parseInt(st.nextToken()); // 요구사항 1번의 필요한 미터 수 M
+        st = new StringTokenizer(br.readLine());
+        int[] arr = new int[N]; // 주어지는 나무 길이를 배열에 저장한다.
+        for (int i = 0; i < N; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        } // 저장 끝
+        // 이분 탐색으로 답을 찾아서 출력.
+        Arrays.sort(arr);
+        System.out.print(binarySearch(arr, M, 1, arr[arr.length - 1]));
     }
-    static long cal(long mid,long[] intArr){
-        long sum=0;
-        for (long height : intArr) {
-            if (height - mid > 0) {
-                sum += (height - mid);
+
+    private static int binarySearch(int[] arr, int M, int start, int end) {
+        int max = 0; // H의 최댓값
+        while (start <= end) {
+            int mid = (start + end) / 2;
+            long cutting = 0;
+            for (int i : arr) // H 높이로 잘라낸 나무 길이를 cutting 변수에 저장
+                cutting += Math.max((i - mid), 0);
+            if (cutting == M) return mid; // 잘라낸 길이가 M미터가 됐으면 최댓값이므로 리턴
+            else if (cutting < M) // M미터보다 적으면 더 조금 잘라내야 하므로
+                end = mid - 1; // end를 최신화
+            else { // M미터보다 크면
+                if (max < mid) { // 이번에 찾은 H 가 더 크다면
+                    max = mid; // max 최신화.
+                }
+                start = mid + 1; // start를 최신화해서 더 큰 H 값을 찾는다.
             }
         }
-        return sum;
+        return max;
     }
 }
