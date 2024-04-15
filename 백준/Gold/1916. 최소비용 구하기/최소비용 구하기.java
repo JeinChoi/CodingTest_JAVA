@@ -77,15 +77,15 @@ class Main {
 
         while (!pq.isEmpty()) {
             Node cur = pq.poll();//최소 가중치를 가진 노드
-            visited[cur.to] = true;
+      //      visited[cur.to] = true;
            // System.out.println("cur.to ::: "+cur.to);
             if(cur.weight>distance[cur.to])
                 continue;
             for (Node node : nodes[cur.to]) {
                 //System.out.println("node.to ::: "+node.to);
-                if (visited[node.to]) {
-                    continue;
-                }
+        //        if (visited[node.to]) {
+         //           continue;
+          //      }
 
                 if (distance[cur.to] + node.weight < distance[node.to]) {
                     distance[node.to] = distance[cur.to] + node.weight;
