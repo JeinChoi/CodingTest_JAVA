@@ -18,32 +18,40 @@ public class Main {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int N = Integer.parseInt(br.readLine());
 
-       Queue<Integer> costs = new LinkedList<>();
-       Queue<Integer> need = new LinkedList<>();
+       Queue<Long> costs = new LinkedList<>();
+       Queue<Long> need = new LinkedList<>();
 
         StringTokenizer st = new StringTokenizer(br.readLine());
         while(st.hasMoreTokens()){
-            need.add(Integer.parseInt(st.nextToken()));
+            need.add(Long.parseLong(st.nextToken()));
         }
 
         st=new StringTokenizer(br.readLine());
         while(st.hasMoreTokens()){
-            int input = Integer.parseInt(st.nextToken());
+            long input = Long.parseLong(st.nextToken());
             costs.add(input);
         }
 
-        int result=0;
-        int nowCost = costs.poll();
+        if(costs.size()==1){
+            System.out.println(costs.poll()*need.poll());
+            return;
+        }
+
+        long result=0;
+        long nowCost = costs.poll();
         while(!need.isEmpty()){
 
             result+=nowCost*need.poll();
-            
+
             if(nowCost>costs.peek()){
                 nowCost=costs.poll();
+            }else{
+                costs.poll();
             }
-            
+
+
         }
-        System.out.println(result);
+       System.out.println(result);
     }
 
 }
